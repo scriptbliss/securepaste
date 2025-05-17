@@ -1,0 +1,34 @@
+{
+  "name": "securepaste",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "description": "description",
+  "repository": "https://github.com/techenthusiastic/securepaste",
+  "author": "Sachin Kumar",
+  "private": false,
+  "scripts": {
+    "commit": "cz",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "{src,apps,libs,test}/**/*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
