@@ -4,12 +4,13 @@ import {
   Controller,
   Get,
   Headers,
-  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
 import { CreatePasteDto } from './dto/create-paste.dto';
+import { GetPasteMetadataResponseDto } from './dto/get-paste-metadata.response.dto';
+import { PasteResponseDto } from './dto/paste.response.dto';
 import { PasteService } from './paste.service';
 
 @Controller('paste')
@@ -22,24 +23,11 @@ export class PasteController {
     return { id: paste.id };
   }
 
-  // @Post(':id')
-  // async get(@Body() getPasteDto: GetPasteDto) {
-  //   const paste = await this.pasteService.getPaste(getPasteDto);
-  //   // return {
-  //   //   content: paste.content,
-  //   //   expiresAt: paste.expiresAt,
-  //   //   viewLimit: paste.viewLimit,
-  //   // };
-  //   return paste;
-  // }
-
   @Get(':id/meta')
-  async getPasteMetadata(@Param('id', new ParseUUIDPipe()) id: string) {
+  async getPasteMetadata(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<GetPasteMetadataResponseDto> {
     const paste = await this.pasteService.getPasteMetadata(id);
-    if (!paste) {
-      throw new NotFoundException('Paste not found or inaccessible');
-    }
-
     return paste;
   }
 
@@ -47,7 +35,7 @@ export class PasteController {
   async getPaste(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Headers('x-paste-password') password?: string,
-  ) {
+  ): Promise<PasteResponseDto> {
     if (password !== undefined && typeof password !== 'string') {
       throw new BadRequestException('Invalid password header');
     }
@@ -57,9 +45,6 @@ export class PasteController {
     }
 
     const paste = await this.pasteService.getPaste(id, password);
-    if (!paste) {
-      throw new NotFoundException('Paste not found or inaccessible');
-    }
 
     return paste;
   }

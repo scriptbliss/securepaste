@@ -71,7 +71,7 @@ export class PasteService {
     }
   }
 
-  async getPaste(id: string, password?: string) {
+  async getPaste(id: string, password?: string): Promise<PasteResponseDto> {
     try {
       const paste = await this.prisma.paste.findUniqueOrThrow({
         where: { id },
