@@ -14,8 +14,39 @@
   }
 }
 
+html,
+body,
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #111; /* dark background to avoid flash */
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+@layer components {
+  .container-main {
+    @apply max-w-lg w-full bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg;
+  }
+  .input-base {
+    @apply w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  .button-submit-base {
+    /* font-semibold/text-sm */
+    @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded shadow transition-colors text-sm;
+  }
+  .error-text {
+    @apply text-red-600 dark:text-red-400;
+  }
 }
