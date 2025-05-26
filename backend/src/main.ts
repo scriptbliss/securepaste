@@ -8,8 +8,10 @@ import { GlobalExceptionFilter } from './common/filter/global-exception/global-e
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const configService = app.get(ConfigService);
+
   // Register global exception filter
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter(configService));
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -18,8 +20,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
-  const configService = app.get(ConfigService);
 
   const corsOrigins = configService.get<string>('CORS_ORIGIN');
   console.info('corsOrigins', corsOrigins);
@@ -32,6 +32,7 @@ async function bootstrap() {
   if (!appConfig) {
     throw new Error('App config not found!');
   }
+  console.log('appConfig', appConfig);
   const server_host: string = appConfig.host;
   const server_port: number = appConfig.port;
 
