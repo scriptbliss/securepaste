@@ -1,9 +1,9 @@
 import {
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
-  IsInt,
-  IsDateString,
-  IsNotEmpty,
   MaxLength,
   Min,
   MinLength,
@@ -12,12 +12,14 @@ import {
 export class CreatePasteDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(1000)
+  @MaxLength(10000)
   content: string;
 
   @IsOptional()
   @IsString()
   @MinLength(5)
+  @MaxLength(10)
+  // @Transform(({ value }) => (value === '' ? undefined : value)) // treat empty string as undefined if needed
   password?: string;
 
   @IsOptional()

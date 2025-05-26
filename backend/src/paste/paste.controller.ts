@@ -23,7 +23,7 @@ export class PasteController {
     return { id: paste.id };
   }
 
-  @Get(':id/meta')
+  @Get(':id/metadata')
   async getPasteMetadata(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<GetPasteMetadataResponseDto> {
