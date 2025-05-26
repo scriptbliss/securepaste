@@ -22,6 +22,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const corsOrigins = configService.get<string>('CORS_ORIGIN');
+  console.info('corsOrigins', corsOrigins);
   app.enableCors({
     origin: corsOrigins,
     credentials: true, // if using cookies or sessions
