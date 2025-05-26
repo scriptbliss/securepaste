@@ -19,13 +19,14 @@ async function bootstrap() {
     }),
   );
 
+  const configService = app.get(ConfigService);
+
+  const corsOrigins = configService.get<string>('CORS_ORIGIN');
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://yourfrontend.com'],
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    // credentials: true, // if using cookies or sessions
+    origin: corsOrigins,
+    credentials: true, // if using cookies or sessions
   });
 
-  const configService = app.get(ConfigService);
   const appConfig = configService.get<AppConfig>('app');
   if (!appConfig) {
     throw new Error('App config not found!');

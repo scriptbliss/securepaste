@@ -8,5 +8,6 @@ export default registerAs(
       (process.env.NODE_ENV as AppConfig['environment']) || 'development',
     host: process.env.SERVER_HOST || 'localhost',
     port: Number(process.env.SERVER_PORT) || 3000,
+    corsOrigin: process.env.CORS_ORIGIN || '',
   }),
 );

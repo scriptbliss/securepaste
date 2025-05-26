@@ -22,6 +22,24 @@ const validationSchema = Joi.object({
     .default(3000)
     .description('Port number to listen on'),
 
+  CORS_ORIGIN: Joi.string()
+    .default('http://localhost:3000')
+    .custom((value: string, helpers) => {
+      const origins = value.split(',').map((o) => o.trim());
+
+      for (const origin of origins) {
+        const { error } = Joi.string()
+          .uri({ scheme: ['http', 'https'] })
+          .validate(origin);
+
+        if (error) {
+          return helpers.error('any.invalid', { value: origin });
+        }
+      }
+
+      return origins;
+    }, 'Validate CORS origins as URLs'),
+
   // Database connection details
   DATABASE_URL: Joi.string()
     .uri({ scheme: ['postgres', 'postgresql'] })
