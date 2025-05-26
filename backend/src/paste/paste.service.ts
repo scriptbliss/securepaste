@@ -95,7 +95,9 @@ export class PasteService {
         throw new PasteExpiredException();
       }
 
-      await this.decrementViewLimit(paste);
+      if (paste.viewLimit != null) {
+        await this.decrementViewLimit(paste);
+      }
 
       const pasteResponseDto = plainToInstance(PasteResponseDto, paste, {
         excludeExtraneousValues: true,
@@ -144,9 +146,10 @@ export class PasteService {
     } catch (error) {
       // Todo: skipping using _error
       console.error(error);
-      throw new InternalServerErrorException(
+      console.error(
         `Failed to decrement viewLimit for paste with id: ${paste.id}`,
       );
+      throw new InternalServerErrorException();
     }
   }
 }
