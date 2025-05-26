@@ -19,6 +19,12 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://yourfrontend.com'],
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    // credentials: true, // if using cookies or sessions
+  });
+
   const configService = app.get(ConfigService);
   const appConfig = configService.get<AppConfig>('app');
   if (!appConfig) {
