@@ -1,5 +1,6 @@
 import * as Joi from 'joi';
-
+// ?? Todo - make everything required instead of default
+// make careful use of default if required
 const validationSchema = Joi.object({
   // Environment config
   NODE_ENV: Joi.string()
@@ -14,7 +15,7 @@ const validationSchema = Joi.object({
       Joi.string().hostname(),
       Joi.string().ip({ version: ['ipv4', 'ipv6'] }),
     )
-    .default('localhost')
+    .default('0.0.0.0')
     .description('Hostname or IP address to bind the server'),
 
   SERVER_PORT: Joi.number()
