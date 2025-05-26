@@ -9,7 +9,7 @@ import {
   Cog6ToothIcon,
   WrenchScrewdriverIcon,
   RocketLaunchIcon,
-} from "@heroicons/react/24/outline";
+} from '@heroicons/react/24/outline';
 
 export default function AboutPage() {
   return (
@@ -22,7 +22,7 @@ export default function AboutPage() {
         <p className="text-lg">
           <strong>SecurePaste</strong> is a privacy-first, secure pastebin
           alternative for sharing sensitive text and code snippets — designed
-          with both <strong>everyday users</strong> and{" "}
+          with both <strong>everyday users</strong> and{' '}
           <strong>developers</strong> in mind.
         </p>
       </section>
@@ -45,7 +45,7 @@ export default function AboutPage() {
             Password Protection
           </li>
           <li className="flex items-center gap-2">
-            <ShieldCheckIcon className="w-5 h-5 text-red-500" />{" "}
+            <ShieldCheckIcon className="w-5 h-5 text-red-500" />{' '}
             Self-Destructing Links
           </li>
           <li className="flex items-center gap-2">

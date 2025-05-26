@@ -1,4 +1,4 @@
-"use client";
+'use client';
 // import PasswordModal from '@/../components/PasswordModal';
 
 // export default function PastePage({
@@ -28,15 +28,15 @@
 //     </>
 //   );
 // }
-import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import ExpiredMessage from "@/components/paste/ExpiredMessage";
-import PasswordForm from "@/components/paste/PasswordForm";
-import PasteContent from "@/components/paste/PasteContent";
-import LoadingDotsLinear from "@/components/ui/LoadingDotsLinear";
-import { withMinimumDelay } from "@/lib/utils";
-import { ErrorResponse } from "@/types/api";
+import ExpiredMessage from '@/components/paste/ExpiredMessage';
+import PasswordForm from '@/components/paste/PasswordForm';
+import PasteContent from '@/components/paste/PasteContent';
+import LoadingDotsLinear from '@/components/ui/LoadingDotsLinear';
+import { withMinimumDelay } from '@/lib/utils';
+import { ErrorResponse } from '@/types/api';
 
 interface Paste {
   id: string;
@@ -68,8 +68,8 @@ export default function PastePage({
   const [isPasswordProtected, setIsPasswordProtected] =
     useState<boolean>(false);
 
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const [paste, setPaste] = useState<Paste | null>(null);
 
@@ -80,12 +80,12 @@ export default function PastePage({
   const fetchPasteContent = useCallback(
     async (passwordHeader: string) => {
       setLoadingPasteData(true);
-      setError("");
+      setError('');
       setPaste(null);
       // await new Promise((res) => setTimeout(res, 10000));
       try {
         const headers: Record<string, string> = {};
-        if (passwordHeader) headers["X-Paste-Password"] = passwordHeader;
+        if (passwordHeader) headers['X-Paste-Password'] = passwordHeader;
         const res = await withMinimumDelay(
           fetch(`${apiUrl}/paste/${pasteId}`, {
             headers,
@@ -102,7 +102,7 @@ export default function PastePage({
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError("Error fetching paste");
+          setError('Error fetching paste');
         }
       } finally {
         setLoadingPasteData(false);
@@ -115,11 +115,11 @@ export default function PastePage({
     if (!pasteId) return;
 
     setLoadingPasteMetadata(true);
-    setError("");
+    setError('');
     setIsExpired(false);
     setIsPasswordProtected(false);
     setPaste(null);
-    setPassword("");
+    setPassword('');
     // await new Promise((res) => setTimeout(res, 10000));
     try {
       const res = await withMinimumDelay(
@@ -137,13 +137,13 @@ export default function PastePage({
       setIsPasswordProtected(metadata.isPasswordProtected);
 
       if (!metadata.isExpired && !metadata.isPasswordProtected) {
-        fetchPasteContent("");
+        fetchPasteContent('');
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Error fetching paste metadata");
+        setError('Error fetching paste metadata');
       }
     } finally {
       setLoadingPasteMetadata(false);
@@ -158,11 +158,11 @@ export default function PastePage({
   // Handle reset
   const handleReset = useCallback(() => {
     setPaste(null);
-    setError("");
-    setPassword("");
+    setError('');
+    setPassword('');
     setIsExpired(false);
     setIsPasswordProtected(false);
-    router.push("/paste");
+    router.push('/paste');
   }, [router]);
 
   // Fetch metadata on mount or pasteId change

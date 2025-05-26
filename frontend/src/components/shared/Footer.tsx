@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -31,7 +31,7 @@ export default function Footer() {
 
         {/* Right */}
         <div className="text-sm text-gray-400">
-          Built by{" "}
+          Built by{' '}
           <Link
             href="https://www.linkedin.com/in/sachin-kumar-1abc/"
             target="_blank"

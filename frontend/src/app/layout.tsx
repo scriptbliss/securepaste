@@ -1,31 +1,31 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
 
-import "./globals.css";
+import './globals.css';
 
-import Footer from "@/components/shared/Footer";
-import Header from "@/components/shared/Header";
+import Footer from '@/components/shared/Footer';
+import Header from '@/components/shared/Header';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["500", "700"],
+  variable: '--font-playfair',
+  subsets: ['latin'],
+  weight: ['500', '700'],
 });
 
 export const metadata: Metadata = {
-  title: "SecurePaste",
-  description: "A secure paste app with password protection",
+  title: 'SecurePaste',
+  description: 'A secure paste app with password protection',
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-import LoadingDots from "../ui/LoadingDots";
+import LoadingDots from '../ui/LoadingDots';
 
 interface PasswordFormProps {
   password: string;
@@ -45,7 +45,7 @@ export default function PasswordForm({
               <LoadingDots />
             </span>
           ) : (
-            "Submit"
+            'Submit'
           )}
         </button>
       </form>

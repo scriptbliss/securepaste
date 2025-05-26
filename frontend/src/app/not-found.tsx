@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 // app/not-found.tsx
 export default function NotFound() {

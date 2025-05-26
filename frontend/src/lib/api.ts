@@ -1,8 +1,8 @@
 export async function createPaste(content: string, password?: string) {
-  const res = await fetch("/api/paste", {
-    method: "POST",
+  const res = await fetch('/api/paste', {
+    method: 'POST',
     body: JSON.stringify({ content, password }),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
   return res.json();
 }
@@ -17,9 +17,9 @@ export async function validatePastePassword(
   password: string,
 ) {
   const res = await fetch(`/api/paste/${id}`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ password }),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
   return res.json();
 }

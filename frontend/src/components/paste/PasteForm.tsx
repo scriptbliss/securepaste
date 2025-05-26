@@ -1,38 +1,38 @@
-"use client";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+'use client';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { withMinimumDelay } from "@/lib/utils";
-import { ErrorResponse } from "@/types/api";
+import { withMinimumDelay } from '@/lib/utils';
+import { ErrorResponse } from '@/types/api';
 
-import LoadingDots from "../ui/LoadingDots";
-import PasteBlock from "../ui/PasteBlock";
+import LoadingDots from '../ui/LoadingDots';
+import PasteBlock from '../ui/PasteBlock';
 
 const expiryOptions = [
-  { label: "Minutes", value: "minutes" },
-  { label: "Hours", value: "hours" },
-  { label: "Days", value: "days" },
-  { label: "Weeks", value: "weeks" },
-  { label: "Months", value: "months" },
-  { label: "Years", value: "years" },
+  { label: 'Minutes', value: 'minutes' },
+  { label: 'Hours', value: 'hours' },
+  { label: 'Days', value: 'days' },
+  { label: 'Weeks', value: 'weeks' },
+  { label: 'Months', value: 'months' },
+  { label: 'Years', value: 'years' },
 ];
 
 export default function PasteForm() {
   const router = useRouter();
-  const [content, setContent] = useState("");
-  const [password, setPassword] = useState("");
+  const [content, setContent] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [expiryValue, setExpiryValue] = useState<number | "">("");
-  const [expiryUnit, setExpiryUnit] = useState("days");
-  const [viewLimit, setViewLimit] = useState<number | "">("");
+  const [expiryValue, setExpiryValue] = useState<number | ''>('');
+  const [expiryUnit, setExpiryUnit] = useState('days');
+  const [viewLimit, setViewLimit] = useState<number | ''>('');
   const [pasteId, setPasteId] = useState<string | null>(null);
   const [origin, setOrigin] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       setOrigin(window.location.origin);
     }
   }, []);
@@ -44,22 +44,22 @@ export default function PasteForm() {
     const now = new Date();
     const value = Number(expiryValue);
     switch (expiryUnit) {
-      case "minutes":
+      case 'minutes':
         now.setMinutes(now.getMinutes() + value);
         break;
-      case "hours":
+      case 'hours':
         now.setHours(now.getHours() + value);
         break;
-      case "days":
+      case 'days':
         now.setDate(now.getDate() + value);
         break;
-      case "weeks":
+      case 'weeks':
         now.setDate(now.getDate() + value * 7);
         break;
-      case "months":
+      case 'months':
         now.setMonth(now.getMonth() + value);
         break;
-      case "years":
+      case 'years':
         now.setFullYear(now.getFullYear() + value);
         break;
     }
@@ -72,7 +72,7 @@ export default function PasteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) {
-      setError("Content is required.");
+      setError('Content is required.');
       return;
     }
     setLoading(true);
@@ -85,14 +85,14 @@ export default function PasteForm() {
 
       const filteredRequestBody = Object.fromEntries(
         Object.entries(requestBody).filter(
-          ([_key, v]) => v !== undefined && v !== null && v !== "",
+          ([_key, v]) => v !== undefined && v !== null && v !== '',
         ),
       );
 
       const res = await withMinimumDelay(
         fetch(`${apiUrl}/paste/`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(filteredRequestBody),
         }),
         1000,
@@ -107,11 +107,11 @@ export default function PasteForm() {
       setPasteId(data.id);
 
       // Reset form
-      setContent("");
-      setPassword("");
-      setExpiryValue("");
-      setExpiryUnit("days");
-      setViewLimit("");
+      setContent('');
+      setPassword('');
+      setExpiryValue('');
+      setExpiryUnit('days');
+      setViewLimit('');
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -139,7 +139,7 @@ export default function PasteForm() {
             Password (optional)
           </label>
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             value={password}
             minLength={5}
             maxLength={10}
@@ -150,9 +150,9 @@ export default function PasteForm() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            title={showPassword ? "Hide password" : "Show password"}
+            title={showPassword ? 'Hide password' : 'Show password'}
             className="absolute inset-y-0 right-3 flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 focus:outline-none"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
               <EyeSlashIcon className="h-5 w-5" />
@@ -174,7 +174,7 @@ export default function PasteForm() {
               value={expiryValue}
               onChange={(e) =>
                 setExpiryValue(
-                  e.target.value === "" ? "" : parseInt(e.target.value),
+                  e.target.value === '' ? '' : parseInt(e.target.value),
                 )
               }
               className="input-base w-1/2"
@@ -204,7 +204,7 @@ export default function PasteForm() {
             value={viewLimit}
             onChange={(e) =>
               setViewLimit(
-                e.target.value === "" ? "" : parseInt(e.target.value),
+                e.target.value === '' ? '' : parseInt(e.target.value),
               )
             }
             placeholder="e.g. 10 views max"
@@ -219,7 +219,7 @@ export default function PasteForm() {
           disabled={loading}
           className="button-submit-base w-full mt-6"
         >
-          {loading ? <LoadingDots /> : "Create Paste"}
+          {loading ? <LoadingDots /> : 'Create Paste'}
         </button>
       </form>
 

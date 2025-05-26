@@ -1,4 +1,4 @@
-import PasteBlock from "../ui/PasteBlock";
+import PasteBlock from '../ui/PasteBlock';
 
 interface Paste {
   id: string;
@@ -20,26 +20,26 @@ export default function PasteContent({ paste, onReset }: PasteContentProps) {
       {/* Metadata */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Paste ID:{" "}
+          Paste ID:{' '}
           <span className="text-blue-600 dark:text-blue-400">{paste.id}</span>
         </h1>
         <div className="mt-3 text-sm text-gray-600 dark:text-gray-400 space-y-1">
           <p>
-            <strong>Created:</strong>{" "}
+            <strong>Created:</strong>{' '}
             {new Date(paste.createdAt).toLocaleString()}
           </p>
           <p>
-            <strong>Updated:</strong>{" "}
+            <strong>Updated:</strong>{' '}
             {new Date(paste.updatedAt).toLocaleString()}
           </p>
           <p>
-            <strong>Expires:</strong>{" "}
+            <strong>Expires:</strong>{' '}
             {paste.expiresAt
               ? new Date(paste.expiresAt).toLocaleString()
-              : "Never"}
+              : 'Never'}
           </p>
           <p>
-            <strong>View Limit:</strong> {paste.viewLimit ?? "Unlimited"}
+            <strong>View Limit:</strong> {paste.viewLimit ?? 'Unlimited'}
           </p>
         </div>
       </div>

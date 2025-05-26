@@ -1,6 +1,6 @@
-import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 interface PasteBlockProps {
   title: string;
