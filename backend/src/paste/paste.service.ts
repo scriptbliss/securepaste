@@ -1,12 +1,12 @@
 import {
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { PrismaErrorCodes } from 'src/common/constants/prisma-errors';
+import { LoggerService } from 'src/common/logger/logger.service';
 import { Paste, Prisma } from '../../generated/prisma';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePasteDto } from './dto/create-paste.dto';
@@ -16,7 +16,10 @@ import { PasteExpiredException } from './exceptions/paste-expired.exception';
 
 @Injectable()
 export class PasteService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: LoggerService,
+  ) {}
 
   async createPaste(createPasteDto: CreatePasteDto) {
     const { content, password, expiry, viewLimit } = createPasteDto;
@@ -143,13 +146,13 @@ export class PasteService {
       if (updatedPaste.count === 0) {
         throw new PasteExpiredException();
       }
-    } catch (error) {
-      // Todo: skipping using _error
-      console.error(error);
-      console.error(
-        `Failed to decrement viewLimit for paste with id: ${paste.id}`,
-      );
-      throw new InternalServerErrorException();
+    } catch (err: unknown) {
+      // Todo: skipping eslint using _err
+      if (err instanceof Error) {
+        this.logger.error(err, PasteService.name, err.stack, { paste });
+      } else {
+        throw err;
+      }
     }
   }
 }

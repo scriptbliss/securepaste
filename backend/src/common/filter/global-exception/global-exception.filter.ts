@@ -7,11 +7,15 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { LoggerService } from 'src/common/logger/logger.service';
 import { AppConfig } from 'src/config/types/app-config.type';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly logger: LoggerService,
+  ) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -66,9 +70,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
           }),
     };
 
-    // Optional: Log the error (file, console, or external service)
     if (!isProd) {
-      console.error(`[Exception] ${message}`, exception);
+      if (exception instanceof Error) {
+        this.logger.error(exception);
+      } else {
+        this.logger.error(String(exception));
+      }
     }
 
     response.status(status).json(errorResponse);

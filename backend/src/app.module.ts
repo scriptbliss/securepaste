@@ -1,7 +1,13 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ClsModule } from 'nestjs-cls';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { LoggerModule } from './common/logger/logger.module';
+import {
+  CorrelationIdMiddleware,
+  RequestLoggerMiddleware,
+} from './common/middleware';
 import appConfig from './config/app.config';
 import cryptoConfig from './config/crypto.config';
 import databaseConfig from './config/database.config';
@@ -17,10 +23,24 @@ import { PrismaModule } from './prisma/prisma.module';
       load: [appConfig, databaseConfig, cryptoConfig],
       validationSchema,
     }),
+    ClsModule.forRoot({
+      global: true,
+      middleware: {
+        // mounts the ClsMiddleware for all routes
+        mount: true,
+      },
+    }),
     PrismaModule,
     PasteModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CorrelationIdMiddleware, RequestLoggerMiddleware)
+      .forRoutes('*');
+  }
+}

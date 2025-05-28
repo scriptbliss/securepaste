@@ -1,18 +1,34 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from './config/types/app-config.type';
+import { NestFactory } from '@nestjs/core';
+import type { Express } from 'express';
+import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filter/global-exception/global-exception.filter';
+import { LoggerService } from './common/logger/logger.service';
+import { AppConfig } from './config/types/app-config.type';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
+
+  const expressApp = app.getHttpAdapter().getInstance() as Express;
+  expressApp.set('trust proxy', true);
 
   const configService = app.get(ConfigService);
 
-  // Register global exception filter
-  app.useGlobalFilters(new GlobalExceptionFilter(configService));
+  // 1. Enable CORS first
+  const corsOrigins = configService.get<string>('CORS_ORIGIN');
+  app.enableCors({
+    origin: corsOrigins,
+    credentials: true, // if using cookies or sessions
+  });
 
+  // 2. Set up logger
+  const loggerService = app.get(LoggerService);
+  app.useLogger(loggerService);
+
+  // 3. Register global pipes
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -21,18 +37,13 @@ async function bootstrap() {
     }),
   );
 
-  const corsOrigins = configService.get<string>('CORS_ORIGIN');
-  console.info('corsOrigins', corsOrigins);
-  app.enableCors({
-    origin: corsOrigins,
-    credentials: true, // if using cookies or sessions
-  });
+  // 4. Register global exception filter
+  app.useGlobalFilters(new GlobalExceptionFilter(configService, loggerService));
 
   const appConfig = configService.get<AppConfig>('app');
   if (!appConfig) {
     throw new Error('App config not found!');
   }
-  console.log('appConfig', appConfig);
   const server_host: string = appConfig.host;
   const server_port: number = appConfig.port;
 
