@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SecurePaste Frontend
+
+A modern, secure paste service frontend built with Next.js 14, providing a beautiful and intuitive interface for creating and managing encrypted pastes.
+
+[← Back to Project Root](../README.md)
+
+## Overview
+
+The frontend provides a modern, responsive interface for creating and managing encrypted pastes. It features a clean design with dark mode support and comprehensive security features.
+
+## Features
+
+- 🎨 Modern, responsive UI with Tailwind CSS
+- 🔒 End-to-end encryption support
+- 🔐 Password protection for pastes
+- 👁️ View limit controls
+- ⏱️ Expiration time selection
+- 📱 Mobile-first design
+- 🌙 Dark mode support
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **UI Library:** React
+- **Styling:** Tailwind CSS
+- **Language:** TypeScript
+- **State Management:** React Context
+- **HTTP Client:** Axios
+- **Form Handling:** React Hook Form
+- **Validation:** Zod
+- **Deployment:** Vercel
+
+## Project Structure
+
+```
+frontend/
+├── app/                    # App router pages
+│   ├── page.tsx           # Home page
+│   ├── paste/             # Paste routes
+│   │   ├── [id]/         # Dynamic paste routes
+│   │   └── create/       # Create paste page
+│   └── layout.tsx        # Root layout
+├── components/            # React components
+│   ├── ui/               # UI components
+│   ├── forms/            # Form components
+│   └── layout/           # Layout components
+├── lib/                  # Utility functions
+│   ├── api/             # API client
+│   ├── hooks/           # Custom hooks
+│   └── utils/           # Helper functions
+├── public/              # Static assets
+└── styles/              # Global styles
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or later)
+- Yarn package manager
+
+### Installation
+
+1. Install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+2. Set up environment variables:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+3. Start the development server:
+
+   ```bash
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Development
 
 ```bash
-npm run dev
-# or
+# Start development server
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+yarn build
+
+# Start production server
+yarn start
+
+# Run tests
+yarn test
+
+# Run linter
+yarn lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Required environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-## Learn More
+## Features in Detail
 
-To learn more about Next.js, take a look at the following resources:
+### Paste Creation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Rich text editor support
+- Syntax highlighting
+- File upload support
+- Custom expiration times
+- Password protection
+- View limit configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Paste Viewing
 
-## Deploy on Vercel
+- Secure content display
+- Password entry for protected pastes
+- View count tracking
+- Expiration status
+- Copy to clipboard
+- Download as file
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Security Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- End-to-end encryption
+- Secure password handling
+- CORS protection
+- XSS prevention
+- CSRF protection
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
