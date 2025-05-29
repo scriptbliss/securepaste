@@ -48,7 +48,10 @@ async function bootstrap() {
   const server_port: number = appConfig.port;
 
   await app.listen(server_port, server_host);
-  console.log(`Server running on http://${server_host}:${server_port}`);
+  loggerService.log(
+    `Server running on http://${server_host}:${server_port}`,
+    'Bootstrap',
+  );
 }
 bootstrap()
   .then(() => {
