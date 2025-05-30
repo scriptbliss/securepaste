@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import type { Express } from 'express';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filter/global-exception/global-exception.filter';
 import { LoggerService } from './common/logger/logger.service';
@@ -17,18 +18,23 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
-  // 1. Enable CORS first
+  // 1. Enable Helmet first
+  app.use(helmet());
+
+  // 2. Enable CORS
   const corsOrigins = configService.get<string>('CORS_ORIGIN');
   app.enableCors({
     origin: corsOrigins,
     credentials: true, // if using cookies or sessions
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-correlation-id'],
   });
 
-  // 2. Set up logger
+  // 3. Set up logger
   const loggerService = app.get(LoggerService);
   app.useLogger(loggerService);
 
-  // 3. Register global pipes
+  // 4. Register global pipes
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -37,7 +43,7 @@ async function bootstrap() {
     }),
   );
 
-  // 4. Register global exception filter
+  // 5. Register global exception filter
   app.useGlobalFilters(new GlobalExceptionFilter(configService, loggerService));
 
   const appConfig = configService.get<AppConfig>('app');

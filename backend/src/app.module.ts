@@ -1,5 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ClsModule } from 'nestjs-cls';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -30,12 +32,26 @@ import { PrismaModule } from './prisma/prisma.module';
         mount: true,
       },
     }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     PrismaModule,
     PasteModule,
     LoggerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
